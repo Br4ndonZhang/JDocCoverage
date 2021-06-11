@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="stylesheet.css">
+</head>
+
+<body>
+<a title="JavaDoc and Comment Coverage" href="http://sourceforge.net/projects/jdoccoverage/">
+<IMG src="http://sourceforge.net/sflogo.php?group_id=165610&amp;type=4" border="0" title="JavaDoc and Comment Coverage" alt="JavaDoc and Comment Coverage" align="right"/></a></A>
+<h1>JDocCoverage - JavaDoc and Comment Coverage</h1>
+<p>JDocCoverage is a Java tool to analyze the quality of the documentation of 
+the Java source code. The quality management is very important on large projects 
+with many developers. There are many steps to do this.</p>
+<ul>
+	<li>First there there are unit tests. For example this can be do with the 
+	popular Java tool 
+	<a title="Java testing framework" href="http://www.junit.org/">JUnit</a>.</li>
+	<li>Then you need a code coverage to check the test density of the unit 
+	tests. You can do this with the popular tool 
+	<a title="Java code coverage tool" href="http://emma.sourceforge.net/">EMMA</a>.</li>
+	<li>Then you need a good documentation of the source code.</li>
+</ul>
+<p>Every developer know that a documentation of the source code is required. But 
+the most developer are lazy. If a project part is finish then the documentation 
+is forget. This is the point where JDocCoverage is starting.</p>
+<h2>How does JDocCoverage work?</h2>
+<p>JDocCoverage can&#39;t check the context of the comments but it can:</p>
+<ul>
+	<li>check the comment density. The percentage between source code and 
+	comments. A source code with 10% comments is good comments</li>
+	<li>check if every method has a JavaDoc.</li>
+	<li>check if all method parameters are documented and if the names are 
+	correct</li>
+	<li>check for TODO tags</li>
+	<li>skip comment out source code.</li>
+	<li>skip auto generated comments from known IDE&#39;s</li>
+	<li>skip the license preamble. </li>
+</ul>
+
+<h2>How look the result?</h2>
+<p>Here are some sample results.</p>
+<ul>
+	<li><a href="coverage/index.html">JDocCoverage</a></li>
+	<li><a href="coverageSmallSQL/index.html">SmallSQL Database</a></li>
+</ul>
+
+<h2>How to use it?</h2>
+<p>Currently you can only use it as command line tool. We will add more 
+interfaces in future versions.</p>
+<p><code>java -jar jdoccoverage.jar &lt;options&gt; &lt;source files&gt;</code></p>
+
+<p><b>samples:</b></p>
+<p><code>java -jar jdoccoverage.jar src/<br>
+java -jar jdoccoverage.jar src/**/*.java src2/?abc*.java&quot;<br>
+java -jar jdoccoverage.jar -d output src/</code></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</body>
+
+</html>
