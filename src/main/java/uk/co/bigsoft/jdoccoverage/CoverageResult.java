@@ -26,80 +26,73 @@ package uk.co.bigsoft.jdoccoverage;
 
 import java.io.File;
 
-
 /**
  * @author Volker Berlin
  */
 class CoverageResult {
 
 	final String fileName;
-    String packageName = "";
-    String author;
-    
-    /** count of characters of comment */
-    int commentCount;
-    
-    /** count of characters of code */
-    int codeCount;
-    
-    /** count of methods */
-    int methodCount;
-    
-    /** count of TODOs */
-    int todoCount;
-    
-    /** count of see tags */
-    int seeCount;
-    
-    
-    StringBuffer formattedSourceCode = new StringBuffer();
-    
-    CoverageResult(String fileName){
-        this.fileName = fileName;
-    }
-    
-    void addComment(String comment){
-        commentCount += comment.length();
-    }
-    
-    
-    void addCode(String code){
-        codeCount += code.length();
-    }
-    
-    
-    void addMethod(String method){
-        methodCount++;
-    }
+	String packageName = "";
+	String author;
 
-    
-    String getResultName(){
-        String sourceName;
-        if(fileName.endsWith(".java")){
-            sourceName = fileName.substring(0, fileName.length()-5); //Remove ".java"
-        }else{
-            if(fileName.length() == 0)
-                return "(default)";
-            return fileName;
-        }
-        sourceName = sourceName.replace(File.separatorChar, '.');
-        sourceName = sourceName.substring(sourceName.lastIndexOf('.')+1);
-        if(packageName.length() > 0)
-            return packageName + '.' + sourceName;
-        return sourceName;
-    }
-    
-    
-    String getResultFilename(){
-        return getResultName() + ".html";
-    }
-    
+	/** count of characters of comment */
+	int commentCount;
 
-    public void accumulate(CoverageResult result) {
-        commentCount += result.commentCount;
-        codeCount += result.codeCount;
-        methodCount += result.methodCount;
-        todoCount += result.todoCount;
-        seeCount += result.seeCount;
-    }
+	/** count of characters of code */
+	int codeCount;
+
+	/** count of methods */
+	int methodCount;
+
+	/** count of TODOs */
+	int todoCount;
+
+	/** count of see tags */
+	int seeCount;
+
+	StringBuffer formattedSourceCode = new StringBuffer();
+
+	CoverageResult(String fileName) {
+		this.fileName = fileName;
+	}
+
+	void addComment(String comment) {
+		commentCount += comment.length();
+	}
+
+	void addCode(String code) {
+		codeCount += code.length();
+	}
+
+	void addMethod(String method) {
+		methodCount++;
+	}
+
+	String getResultName() {
+		String sourceName;
+		if (fileName.endsWith(".java")) {
+			sourceName = fileName.substring(0, fileName.length() - 5); // Remove ".java"
+		} else {
+			if (fileName.length() == 0)
+				return "(default)";
+			return fileName;
+		}
+		sourceName = sourceName.replace(File.separatorChar, '.');
+		sourceName = sourceName.substring(sourceName.lastIndexOf('.') + 1);
+		if (packageName.length() > 0)
+			return packageName + '.' + sourceName;
+		return sourceName;
+	}
+
+	String getResultFilename() {
+		return getResultName() + ".html";
+	}
+
+	public void accumulate(CoverageResult result) {
+		commentCount += result.commentCount;
+		codeCount += result.codeCount;
+		methodCount += result.methodCount;
+		todoCount += result.todoCount;
+		seeCount += result.seeCount;
+	}
 }

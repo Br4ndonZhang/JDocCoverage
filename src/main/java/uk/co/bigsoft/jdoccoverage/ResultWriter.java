@@ -32,94 +32,90 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Date;
 
-
 /**
  * @author Volker Berlin
  */
 class ResultWriter {
-    
-    private String title = "JDocCoverage Report - " + DateFormat.getDateTimeInstance().format( new Date() );
-    private NumberFormat numFormat = new DecimalFormat("0.0%");
-    
-    
-    PrintStream createPrintStream(CoverageResult result, File parent) throws Exception{
-        File file = new File(parent, result.getResultFilename() );
-        file.getParentFile().mkdirs();
-        FileOutputStream fos = new FileOutputStream(file);
-        return new PrintStream(fos, false, "UTF8");
-    }
-    
-    
-    void writeResultFileHeader(PrintStream output, CoverageResult result){
-    	output.println("<!DOCTYPE html>");
-    	output.println("<HTML>");
-        output.println("<HEAD>");
-        output.print("<TITLE>");
-        output.print(title);
-        output.println("</TITLE>");
-        output.println("<link rel='stylesheet' type='text/css' href='default.css'>");
-        output.println("</HEAD>");
-        output.println("<BODY>");
-        output.print("<TABLE cellspacing='0' class='header'><TR><TD class='title'>");
-        output.print(title);
-        output.println("</TD></TR>");
-        output.print("<TR><TD class='menu'><a class='menu' href='index.html'>Overview</a>");
-        if(result.packageName.length() != 0){
-            output.print(" | <a class='menu' href='");
-            output.print(result.packageName);
-            output.print(".html'>");
-            output.print(result.packageName);
-            output.print("</a>");
-        }
-        output.println("</TD></TR></TABLE>");
-        output.println("<p>");
-        output.println("<TABLE cellspacing='0'>");
-    }
-    
-    
-    void writeResultHeader(PrintStream output){
-        output.println("<TR><TH>Name</TH><TH>method, %</TH><TH>comment, %</TH><TH>TODO</TH><TH>@see</TH></TR>\n");
-    }
-    
-    
-    void writeResultLine(PrintStream output, CoverageResult result, boolean link){
-        output.print("<TR><TD>");
-        if(link){
-            output.print("<a href='");
-            output.print(result.getResultFilename());
-            output.print("'>");
-        }
-        output.print(result.getResultName());
-        if(link){
-            output.print("</a>");
-        }
-        double pc = result.commentCount/(double)(result.commentCount + result.codeCount);
-        int pci = (int)(pc * 100);
+
+	private String title = "JDocCoverage Report - " + DateFormat.getDateTimeInstance().format(new Date());
+	private NumberFormat numFormat = new DecimalFormat("0.0%");
+
+	PrintStream createPrintStream(CoverageResult result, File parent) throws Exception {
+		File file = new File(parent, result.getResultFilename());
+		file.getParentFile().mkdirs();
+		FileOutputStream fos = new FileOutputStream(file);
+		return new PrintStream(fos, false, "UTF8");
+	}
+
+	void writeResultFileHeader(PrintStream output, CoverageResult result) {
+		output.println("<!DOCTYPE html>");
+		output.println("<HTML>");
+		output.println("<HEAD>");
+		output.print("<TITLE>");
+		output.print(title);
+		output.println("</TITLE>");
+		output.println("<link rel='stylesheet' type='text/css' href='default.css'>");
+		output.println("</HEAD>");
+		output.println("<BODY>");
+		output.print("<TABLE cellspacing='0' class='header'><TR><TD class='title'>");
+		output.print(title);
+		output.println("</TD></TR>");
+		output.print("<TR><TD class='menu'><a class='menu' href='index.html'>Overview</a>");
+		if (result.packageName.length() != 0) {
+			output.print(" | <a class='menu' href='");
+			output.print(result.packageName);
+			output.print(".html'>");
+			output.print(result.packageName);
+			output.print("</a>");
+		}
+		output.println("</TD></TR></TABLE>");
+		output.println("<p>");
+		output.println("<TABLE cellspacing='0'>");
+	}
+
+	void writeResultHeader(PrintStream output) {
+		output.println("<TR><TH>Name</TH><TH>method, %</TH><TH>comment, %</TH><TH>TODO</TH><TH>@see</TH></TR>\n");
+	}
+
+	void writeResultLine(PrintStream output, CoverageResult result, boolean link) {
+		output.print("<TR><TD>");
+		if (link) {
+			output.print("<a href='");
+			output.print(result.getResultFilename());
+			output.print("'>");
+		}
+		output.print(result.getResultName());
+		if (link) {
+			output.print("</a>");
+		}
+		double pc = result.commentCount / (double) (result.commentCount + result.codeCount);
+		int pci = (int) (pc * 100);
 //        System.out.println("nf="+numFormat.format(pc) +"\tpc = "+pc+"\tpci = " +pci);
-        output.print("</TD><TD>");
-        output.print(result.methodCount);
-        output.print("</TD><TD><div class=\"progress progress-striped\"><div class=\"progress-bar progress-bar-green\" style=\"width: "+ pci +"%\"><span>");
-        output.print(numFormat.format(pc));
-        output.print(" &nbsp; ("+result.commentCount+"/"+result.codeCount+")");
-        output.print("</span></div></div></TD><TD>");
-        output.print(result.todoCount);
-        output.print("</TD><TD>");
-        output.print(result.seeCount);
-        output.println("</TD></TR>");        
-    }
-    
-    
-    void writeResultFileFooter(PrintStream output, CoverageResult result){
-        output.println("</TABLE>");
-        output.println("<CODE><PRE>");
-        if(result.formattedSourceCode != null){
-            output.println(result.formattedSourceCode);
-            result.formattedSourceCode = null;
-        }
-        output.println("</PRE></CODE>");
-        output.println("</BODY>");
-        output.println("</HTML>");
-        output.flush();
-        output.close();
-    }
+		output.print("</TD><TD>");
+		output.print(result.methodCount);
+		output.print(
+				"</TD><TD><div class=\"progress progress-striped\"><div class=\"progress-bar progress-bar-green\" style=\"width: "
+						+ pci + "%\"><span>");
+		output.print(numFormat.format(pc));
+		output.print(" &nbsp; (" + result.commentCount + "/" + result.codeCount + ")");
+		output.print("</span></div></div></TD><TD>");
+		output.print(result.todoCount);
+		output.print("</TD><TD>");
+		output.print(result.seeCount);
+		output.println("</TD></TR>");
+	}
+
+	void writeResultFileFooter(PrintStream output, CoverageResult result) {
+		output.println("</TABLE>");
+		output.println("<CODE><PRE>");
+		if (result.formattedSourceCode != null) {
+			output.println(result.formattedSourceCode);
+			result.formattedSourceCode = null;
+		}
+		output.println("</PRE></CODE>");
+		output.println("</BODY>");
+		output.println("</HTML>");
+		output.flush();
+		output.close();
+	}
 }

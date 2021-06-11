@@ -24,7 +24,6 @@
  */
 package uk.co.bigsoft.jdoccoverage;
 
-
 /**
  * @author Volker Berlin
  */
@@ -33,117 +32,114 @@ class Tokenizer {
 	private final char[] content;
 	private int idx;
 	private char comment;
-	
-	
-	Tokenizer(String content){
+
+	Tokenizer(String content) {
 		this.content = content.toCharArray();
 	}
-
 
 	Token nextToken() {
 		char quote = 0;
 		int start = idx;
-		while(idx < content.length){
+		while (idx < content.length) {
 			char c = content[idx++];
-			switch(c){
-            case '\r':
-                if(idx < content.length && (content[idx] == '\n') & (start+1 == idx)){
-                    start = idx;
-                    break;
-                }
-                // no break
+			switch (c) {
+			case '\r':
+				if (idx < content.length && (content[idx] == '\n') & (start + 1 == idx)) {
+					start = idx;
+					break;
+				}
+				// no break
 			case '\n':
-				if(start+1 == idx)
+				if (start + 1 == idx)
 					return new Token(Token.EOL);
-				else{
+				else {
 					idx--;
 					return new Token(content, start, idx);
 				}
 			case ' ':
-            case '\t':
-				if(quote != 0) break;
-				if(start+1 == idx)
+			case '\t':
+				if (quote != 0)
+					break;
+				if (start + 1 == idx)
 					start++;
-				else{
-                    idx--;
+				else {
+					idx--;
 					return new Token(content, start, idx);
 				}
 				break;
 			case '\'':
 			case '\"':
-				if(quote == 0)
+				if (quote == 0)
 					quote = c;
-				else if(quote == c)
+				else if (quote == c)
 					quote = 0;
-				
+
 				break;
 			case '/':
-				if(quote != 0){
+				if (quote != 0) {
 					break;
 				}
-                if(idx < content.length){
-                    char c2 = content[idx++];
-                    switch(c2){
-                    case '*':
-                        while(idx < content.length && content[idx] == '*')
-                            idx++;
-                        return new Token(Token.COMMENT_BLOCK_START);
-                    case '/':
-                        return new Token(Token.COMMENT_LINE_START);
-                    }
-                }
+				if (idx < content.length) {
+					char c2 = content[idx++];
+					switch (c2) {
+					case '*':
+						while (idx < content.length && content[idx] == '*')
+							idx++;
+						return new Token(Token.COMMENT_BLOCK_START);
+					case '/':
+						return new Token(Token.COMMENT_LINE_START);
+					}
+				}
 				break;
-            case '*':
-                int i = idx;
-                while(i < content.length && content[idx] == '*') i++;
-                if(i < content.length && content[i] == '/'){
-                    idx = i+1;
-                    return new Token(Token.COMMENT_BLOCK_END);
-                }
-            case '(':
-            case ')':
-            case '=':
-            case ';':
-            case '{':
-            case '}':
-                if(quote != 0){
-                    break;
-                }
-                if(start+1 == idx)
-                    return new Token(c);
-                else{
-                    idx--;
-                    return new Token(content, start, idx);
-                }
-            }
+			case '*':
+				int i = idx;
+				while (i < content.length && content[idx] == '*')
+					i++;
+				if (i < content.length && content[i] == '/') {
+					idx = i + 1;
+					return new Token(Token.COMMENT_BLOCK_END);
+				}
+			case '(':
+			case ')':
+			case '=':
+			case ';':
+			case '{':
+			case '}':
+				if (quote != 0) {
+					break;
+				}
+				if (start + 1 == idx)
+					return new Token(c);
+				else {
+					idx--;
+					return new Token(content, start, idx);
+				}
+			}
 		}
-        if(start < idx)
-            return new Token(content, start, idx);
+		if (start < idx)
+			return new Token(content, start, idx);
 		return null;
 	}
-    
-    
-    String readLine(){
-        int start = idx;
-        while(idx < content.length){
-            char c = content[idx++];
-            switch(c){
-            case '\r':
-            case '\n':
-                idx--;
-                return new String(content, start, idx-start);
-            }
-        }
-        return new String(content, start, idx-start);
-    }
-    
-    
-    int getCurrentIdx(){
-        return idx;
-    }
-    
-    
-    String getString(int fromIdx, int toIdx){
-        return new String(content, fromIdx, toIdx-fromIdx);
-    }
+
+	String readLine() {
+		int start = idx;
+		while (idx < content.length) {
+			char c = content[idx++];
+			switch (c) {
+			case '\r':
+			case '\n':
+				idx--;
+				return new String(content, start, idx - start);
+			}
+		}
+		return new String(content, start, idx - start);
+	}
+
+	int getCurrentIdx() {
+		return idx;
+	}
+
+	String getString(int fromIdx, int toIdx) {
+		return new String(content, fromIdx, toIdx - fromIdx);
+	}
 }
