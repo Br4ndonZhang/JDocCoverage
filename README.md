@@ -6,3 +6,4 @@ The base version is 0.10 at the time I copied it over.
 
 So far I've just mavenatized it.
 
+Thanks to https://frontendscript.com/css-progress-bar-percentage/ for the progreess bars.

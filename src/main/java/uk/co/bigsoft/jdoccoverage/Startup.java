@@ -194,7 +194,11 @@ public class Startup {
     
     
     private static void copyStylesheet(File parent) throws IOException{
-        InputStream input = Startup.class.getResourceAsStream("default.css");
+        InputStream input = Startup.class.getResourceAsStream("/default.css");
+        if (input == null) {
+        	System.out.println("Startup.class.getResourceAsStream('default.css') failed");
+        	return;
+        }
         File file = new File(parent, "default.css" );
         FileOutputStream fos = new FileOutputStream(file);        
         byte[] puffer = new byte[1024];

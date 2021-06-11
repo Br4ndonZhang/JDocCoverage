@@ -51,7 +51,8 @@ class ResultWriter {
     
     
     void writeResultFileHeader(PrintStream output, CoverageResult result){
-        output.println("<HTML>");
+    	output.println("<!DOCTYPE html>");
+    	output.println("<HTML>");
         output.println("<HEAD>");
         output.print("<TITLE>");
         output.print(title);
@@ -92,12 +93,15 @@ class ResultWriter {
         if(link){
             output.print("</a>");
         }
+        double pc = result.commentCount/(double)(result.commentCount + result.codeCount);
+        int pci = (int)(pc * 100);
+//        System.out.println("nf="+numFormat.format(pc) +"\tpc = "+pc+"\tpci = " +pci);
         output.print("</TD><TD>");
         output.print(result.methodCount);
-        output.print("</TD><TD>");
-        output.print(numFormat.format(result.commentCount/(double)(result.commentCount+result.codeCount)));
+        output.print("</TD><TD><div class=\"progress progress-striped\"><div class=\"progress-bar progress-bar-green\" style=\"width: "+ pci +"%\"><span>");
+        output.print(numFormat.format(pc));
         output.print(" &nbsp; ("+result.commentCount+"/"+result.codeCount+")");
-        output.print("</TD><TD>");
+        output.print("</span></div></div></TD><TD>");
         output.print(result.todoCount);
         output.print("</TD><TD>");
         output.print(result.seeCount);
