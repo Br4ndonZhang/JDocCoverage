@@ -6,7 +6,7 @@
 
 	<groupId>uk.co.bigsoft</groupId>
 	<artifactId>jdoccoverage</artifactId>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.0.1</version>
 	<packaging>jar</packaging>
 
 	<name>JDocCoverage</name>

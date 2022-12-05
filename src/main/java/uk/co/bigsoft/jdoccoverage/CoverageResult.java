@@ -57,7 +57,7 @@ class CoverageResult {
 	}
 
 	void addComment(String comment) {
-		commentCount += comment.length();
+		commentCount += countComment(comment);
 	}
 
 	void addCode(String code) {
@@ -88,11 +88,25 @@ class CoverageResult {
 		return getResultName() + ".html";
 	}
 
-	public void accumulate(CoverageResult result) {
-		commentCount += result.commentCount;
-		codeCount += result.codeCount;
-		methodCount += result.methodCount;
-		todoCount += result.todoCount;
-		seeCount += result.seeCount;
-	}
+    public void accumulate(CoverageResult result) {
+        commentCount += result.commentCount;
+        codeCount += result.codeCount;
+        methodCount += result.methodCount;
+        todoCount += result.todoCount;
+        seeCount += result.seeCount;
+    }
+
+    private int countComment(String s) {
+        int commentCount = 0;
+        for (int i = 0; i < s.length(); ) {
+            int codepoint = s.codePointAt(i);
+            i += Character.charCount(codepoint);
+            if (Character.UnicodeScript.of(codepoint) == Character.UnicodeScript.HAN) {
+                commentCount += 3;//按照中英文翻译比例，大约为 1:3
+            } else {
+                commentCount += 1;
+            }
+        }
+        return commentCount;
+    }
 }
