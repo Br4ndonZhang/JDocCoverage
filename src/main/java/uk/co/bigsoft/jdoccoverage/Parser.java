@@ -10,12 +10,12 @@
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
@@ -83,7 +83,7 @@ class Parser {
 				if (status != CODE)
 					break;
 				if (parenthesLevel == 1 && !wasEquals) {
-					result.addMethod(lastWord);
+					result.addMethodCount();
 				}
 				break;
 			case Token.PARENTHESIS_R:
@@ -125,7 +125,7 @@ class Parser {
 				}
 				result.packageName = packageName.trim();
 			} else {
-				result.addCode(word);
+				result.addCodeWords(word);
 			}
 			break;
 		case COMMENT_LINE:
@@ -134,7 +134,7 @@ class Parser {
 				// skip todo because it is not comment
 				tokenizer.readLine();
 			} else {
-				result.addComment(word);
+				result.addCommentWords(word);
 			}
 			break;
 		case COMMENT_BLOCK:
@@ -145,11 +145,9 @@ class Parser {
 				break;
 			if (word.equals("@author")) {
 				result.author = readCommentLine();
-			} else if (word.equals("@see")) {
-				result.seeCount++;
-				readCommentLine();
-			} else {
-				result.addComment(word);
+			}
+			else {
+				result.addCommentWords(word);
 			}
 			break;
 		}
